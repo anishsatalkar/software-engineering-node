@@ -11,6 +11,9 @@ export default class UserDao implements UserDaoI {
                     userMongooseModel?._id.toString()??'',
                     userMongooseModel?.username??'',
                     userMongooseModel?.password??'',
+                    userMongooseModel?.firstName??'',
+                    userMongooseModel?.lastName??'',
+                    userMongooseModel?.email??'',
                 );
             });
         return userModels;
@@ -21,6 +24,9 @@ export default class UserDao implements UserDaoI {
             userMongooseModel?._id.toString()??'',
             userMongooseModel?.username??'',
             userMongooseModel?.password??'',
+            userMongooseModel?.firstName??'',
+            userMongooseModel?.lastName??'',
+            userMongooseModel?.email??'',
         );
     }
     async createUser(user: User): Promise<User> {
@@ -29,15 +35,20 @@ export default class UserDao implements UserDaoI {
             userMongooseModel?._id.toString()??'',
             userMongooseModel?.username??'',
             userMongooseModel?.password??'',
+            userMongooseModel?.firstName??'',
+            userMongooseModel?.lastName??'',
+            userMongooseModel?.email??'',
         );
     }
     async deleteUser(uid: string):  Promise<any> {
         return await UserModel.deleteOne({_id: uid});
     }
     async updateUser(uid: string, user: User): Promise<any> {
-        return await UserModel.updateOne({_id: uid}, {$set: {
+        return UserModel.updateOne({_id: uid}, {
+            $set: {
                 username: user.uName,
-                password: user.pass
-            }});
+                password: user.pass,
+            }
+        });
     }
 }

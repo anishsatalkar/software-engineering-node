@@ -17,8 +17,8 @@ export default class User {
     private dateOfBirth: Date | null = null;
     private joined: Date = new Date();
     private location: Location | null = null;
-    constructor(id: string, username: string, password: string) {
-        this.id = id; this.username = username; this.password = password;
+    constructor(id: string, username: string, password: string, firstName: string, lastName: string, email: string) {
+        this.id = id; this.username = username; this.password = password; this.firstName = firstName; this.lastName = lastName; this.email = email;
     }
     get uName() { return this.username; }
     get pass() { return this.password; }
