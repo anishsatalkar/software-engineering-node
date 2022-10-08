@@ -7,7 +7,9 @@ export default class TuitDao implements TuitDaoI {
         const tuitMongooseModel = await TuitModel.create(tuit);
         return new Tuit(
             tuitMongooseModel?._id.toString() ?? '',
-            tuitMongooseModel?.tuit.toString() ?? ''
+            tuitMongooseModel?.tuit.toString() ?? '',
+            tuitMongooseModel?.postedOn ?? undefined,
+            tuitMongooseModel?.postedBy ?? undefined
         );
     }
 
@@ -21,7 +23,9 @@ export default class TuitDao implements TuitDaoI {
             .map((tuitMongooseModel) => {
                 return new Tuit(
                     tuitMongooseModel?._id.toString() ?? '',
-                    tuitMongooseModel?.tuit.toString() ?? ''
+                    tuitMongooseModel?.tuit.toString() ?? '',
+                    tuitMongooseModel?.postedOn ?? undefined,
+                    tuitMongooseModel?.postedBy ?? undefined
                 )
             });
         return tuitModels;
@@ -31,7 +35,9 @@ export default class TuitDao implements TuitDaoI {
         const tuitMongooseModel = await TuitModel.findById(tid);
         return new Tuit(
             tuitMongooseModel?._id.toString() ?? '',
-            tuitMongooseModel?.tuit.toString() ?? ''
+            tuitMongooseModel?.tuit.toString() ?? '',
+            tuitMongooseModel?.postedOn ?? undefined,
+            tuitMongooseModel?.postedBy ?? undefined
         )
     }
 
@@ -41,16 +47,22 @@ export default class TuitDao implements TuitDaoI {
             .map((tuitMongooseModel) => {
                 return new Tuit(
                     tuitMongooseModel?._id.toString() ?? '',
-                    tuitMongooseModel?.tuit.toString() ?? ''
+                    tuitMongooseModel?.tuit.toString() ?? '',
+                    tuitMongooseModel?.postedOn ?? undefined,
+                    tuitMongooseModel?.postedBy ?? undefined
                 )
             });
         return tuitModels;
     }
 
-    async updateTuit(tid: string, tuit: Tuit): Promise<any> {
-        return await TuitModel.updateOne({_id: tid}, {$set: {
-            tuit: tuit.tuitString,
-            }});
+    async updateTuit(tid: string, tuitObject: any): Promise<any> {
+        // Here, a Tuit object is not used as parameter since it's not possible to use its getter
+        // to fetch the tuit attribute. Tried it but it returned undefined.
+        return await TuitModel.updateOne({_id: tid}, {
+            $set: {
+                tuit: tuitObject.tuit,
+            }
+        });
     }
 
 }

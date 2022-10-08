@@ -1,22 +1,31 @@
 import UserDaoI from "../interfaces/UserDaoI";
 import User from "../models/User";
 import UserModel from "../mongoose/UserModel";
+import AccountType from "../models/AccountType";
+import MaritalStatus from "../models/MaritalStatus";
 
 export default class UserDao implements UserDaoI {
     async findAllUsers(): Promise<User[]> {
         const userMongooseModels = await UserModel.find();
-        const userModels = userMongooseModels
+        return userMongooseModels
             .map((userMongooseModel) => {
                 return new User(
-                    userMongooseModel?._id.toString()??'',
-                    userMongooseModel?.username??'',
-                    userMongooseModel?.password??'',
-                    userMongooseModel?.firstName??'',
-                    userMongooseModel?.lastName??'',
-                    userMongooseModel?.email??'',
+                    userMongooseModel?._id.toString() ?? '',
+                    userMongooseModel?.username ?? '',
+                    userMongooseModel?.password ?? '',
+                    userMongooseModel?.firstName ?? '',
+                    userMongooseModel?.lastName ?? '',
+                    userMongooseModel?.email ?? '',
+                    userMongooseModel?.profilePhoto ?? '',
+                    userMongooseModel?.headerImage ?? '',
+                    userMongooseModel?.accountType ?? AccountType.Personal,
+                    userMongooseModel?.maritalStatus ?? MaritalStatus.Single,
+                    userMongooseModel?.biography ?? '',
+                    userMongooseModel?.dateOfBirth ?? new Date(),
+                    userMongooseModel?.joined ?? new Date(),
+                    userMongooseModel?.location ?? {}
                 );
             });
-        return userModels;
     }
     async findUserById(uid: string): Promise<User> {
         const userMongooseModel = await UserModel.findById(uid);
@@ -27,6 +36,14 @@ export default class UserDao implements UserDaoI {
             userMongooseModel?.firstName??'',
             userMongooseModel?.lastName??'',
             userMongooseModel?.email??'',
+            userMongooseModel?.profilePhoto??'',
+            userMongooseModel?.headerImage??'',
+            userMongooseModel?.accountType?? AccountType.Personal,
+            userMongooseModel?.maritalStatus?? MaritalStatus.Single,
+            userMongooseModel?.biography??'',
+            userMongooseModel?.dateOfBirth??new Date(),
+            userMongooseModel?.joined??new Date(),
+            userMongooseModel?.location??{}
         );
     }
     async createUser(user: User): Promise<User> {
@@ -38,6 +55,14 @@ export default class UserDao implements UserDaoI {
             userMongooseModel?.firstName??'',
             userMongooseModel?.lastName??'',
             userMongooseModel?.email??'',
+            userMongooseModel?.profilePhoto??'',
+            userMongooseModel?.headerImage??'',
+            userMongooseModel?.accountType?? AccountType.Personal,
+            userMongooseModel?.maritalStatus?? MaritalStatus.Single,
+            userMongooseModel?.biography??'',
+            userMongooseModel?.dateOfBirth??new Date(),
+            userMongooseModel?.joined??new Date(),
+            userMongooseModel?.location??{}
         );
     }
     async deleteUser(uid: string):  Promise<any> {
@@ -45,10 +70,7 @@ export default class UserDao implements UserDaoI {
     }
     async updateUser(uid: string, user: User): Promise<any> {
         return UserModel.updateOne({_id: uid}, {
-            $set: {
-                username: user.uName,
-                password: user.pass,
-            }
+            $set: user
         });
     }
 }

@@ -5,9 +5,7 @@ export default class Tuit {
     private tuit: string = '';
     private postedOn: Date = new Date();
     private postedBy: User | null = null;
-    constructor(id: string, tuit: string) {
-        this.id = id; this.tuit = tuit;
+    constructor(id: string, tuit: string, postedOn: Date, postedBy: User) {
+        this.id = id; this.tuit = tuit; this.postedOn = postedOn; this.postedBy = postedBy;
     }
-
-    get tuitString() { return this.tuit; }
 }

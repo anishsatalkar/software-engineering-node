@@ -17,9 +17,24 @@ export default class User {
     private dateOfBirth: Date | null = null;
     private joined: Date = new Date();
     private location: Location | null = null;
-    constructor(id: string, username: string, password: string, firstName: string, lastName: string, email: string) {
-        this.id = id; this.username = username; this.password = password; this.firstName = firstName; this.lastName = lastName; this.email = email;
+    constructor(id: string, username: string, password: string,
+                firstName: string, lastName: string, email: string,
+                profilePhoto: string, headerImage: string, accountType: AccountType,
+                maritalStatus: MaritalStatus, biography: string,
+                dateOfBirth: Date, joined: Date, location: Location) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.profilePhoto = profilePhoto;
+        this.headerImage = headerImage;
+        this.accountType = accountType;
+        this.maritalStatus = maritalStatus;
+        this.biography = biography;
+        this.dateOfBirth = dateOfBirth;
+        this.joined = joined;
+        this.location = location;
     }
-    get uName() { return this.username; }
-    get pass() { return this.password; }
 }

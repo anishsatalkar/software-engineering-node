@@ -9,12 +9,12 @@ export default class TuitController implements TuitControllerI {
     constructor(app: Express, tuitDao: TuitDao) {
         this.app = app;
         this.tuitDao = tuitDao;
-        this.app.get('/tuits', this.findAllTuits);
-        this.app.get('/tuits/:tid', this.findTuitById);
-        this.app.get('/users/:uid/tuits', this.findTuitsByUser);
-        this.app.post('/tuits', this.createTuit);
-        this.app.delete('/tuits/:tid', this.deleteTuit);
-        this.app.put('/tuits/:tid', this.updateTuit);
+        this.app.get('/api/tuits', this.findAllTuits);
+        this.app.get('/api/tuits/:tid', this.findTuitById);
+        this.app.get('/api/users/:uid/tuits', this.findTuitsByUser);
+        this.app.post('/api/tuits', this.createTuit);
+        this.app.delete('/api/tuits/:tid', this.deleteTuit);
+        this.app.put('/api/tuits/:tid', this.updateTuit);
     }
 
     findAllTuits = (req: Request, res: Response) =>
