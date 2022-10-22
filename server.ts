@@ -1,16 +1,34 @@
 /**
- * @file Implements an Express Node HTTP server.
+ * @file Implements an Express Node HTTP server. Declares RESTful Web services
+ * enabling CRUD operations on the following resources:
+ * <ul>
+ *     <li>users</li>
+ *     <li>tuits</li>
+ *     <li>likes</li>
+ * </ul>
+ * 
+ * Connects to a remote MongoDB instance hosted on the Atlas cloud database
+ * service
  */
 import express, {Request, Response} from 'express';
-import UserDao from "./src/daos/UserDao";
-import UserController from "./src/controllers/UserController";
-import TuitDao from "./src/daos/TuitDao";
-import TuitController from "./src/controllers/TuitController";
+import UserController from "./controllers/UserController";
+import TuitController from "./controllers/TuitController";
+import LikeController from "./controllers/LikeController";
 import mongoose from "mongoose";
-const cors = require('cors')
-const app = express();
-app.use(cors());
-app.use(express.json());
+import FollowController from "./controllers/FollowController";
+import BookmarkController from "./controllers/BookmarkController";
+var cors = require('cors')
+
+// build the connection string
+// const PROTOCOL = "mongodb+srv";
+// const DB_USERNAME = process.env.DB_USERNAME;
+// const DB_PASSWORD = process.env.DB_PASSWORD;
+// const HOST = "cluster0.m8jeh.mongodb.net";
+// const DB_NAME = "myFirstDatabase";
+// const DB_QUERY = "retryWrites=true&w=majority";
+// const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
+// // connect to the database
+// mongoose.connect(connectionString);
 
 const options = {
     useNewUrlParser: true,
@@ -22,19 +40,21 @@ const options = {
     family: 4
 }
 
-mongoose.connect('mongodb://localhost:27017/tuiter', options);
+mongoose.connect('mongodb://localhost:27017/fse-tuiter', options);
+
+const app = express();
+app.use(express.json());
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) =>
-    res.send('Welcome to Foundation of Software Engineering!!!!'));
+    res.send('Welcome!'));
 
-app.get('/hello', (req: Request, res: Response) =>
-    res.send('Welcome to Foundation of Software Engineering!'));
-
-const userDao = new UserDao();
-const userConstroller = new UserController(app, userDao);
-
-const tuitDao = new TuitDao();
-const tuitController = new TuitController(app, tuitDao);
+// create RESTful Web service API
+UserController.getInstance(app);
+TuitController.getInstance(app);
+LikeController.getInstance(app);
+FollowController.getInstance(app);
+BookmarkController.getInstance(app);
 
 /**
  * Start a server listening at port 4000 locally
