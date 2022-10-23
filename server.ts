@@ -5,6 +5,9 @@
  *     <li>users</li>
  *     <li>tuits</li>
  *     <li>likes</li>
+ *     <li>follows</li>
+ *     <li>bookmarks</li>
+ *     <li>messages</li>
  * </ul>
  * 
  * Connects to a remote MongoDB instance hosted on the Atlas cloud database
