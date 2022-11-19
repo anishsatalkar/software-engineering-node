@@ -1,4 +1,4 @@
-import {Express, Response} from "express";
+import {Express} from "express";
 import UserDao from "../daos/UserDao";
 
 const bcrypt = require('bcrypt');

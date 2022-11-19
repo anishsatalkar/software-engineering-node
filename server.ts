@@ -21,6 +21,7 @@ import mongoose from "mongoose";
 import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
+import AuthenticationController from "./controllers/AuthController";
 var cors = require('cors')
 
 // build the connection string
@@ -50,6 +51,8 @@ const app = express();
 
 let sess = {
     secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
     cookie: {
         secure: false
     }
@@ -61,7 +64,8 @@ if (process.env.ENV === 'PRODUCTION') {
 }
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
+app.use(session(sess));
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome!'));
@@ -73,6 +77,7 @@ LikeController.getInstance(app);
 FollowController.getInstance(app);
 BookmarkController.getInstance(app);
 MessageController.getInstance(app);
+AuthenticationController(app);
 
 /**
  * Start a server listening at port 4000 locally
