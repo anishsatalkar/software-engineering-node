@@ -45,7 +45,21 @@ const options = {
     family: 4
 }
 
+const session = require('express-session');
 const app = express();
+
+let sess = {
+    secret: process.env.SECRET,
+    cookie: {
+        secure: false
+    }
+}
+
+if (process.env.ENV === 'PRODUCTION') {
+    app.set('trust proxy', 1)
+    sess.cookie.secure = true
+}
+
 app.use(express.json());
 app.use(cors());
 
