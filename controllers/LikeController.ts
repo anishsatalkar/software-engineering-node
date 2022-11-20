@@ -39,6 +39,7 @@ export default class LikeController implements LikeControllerI {
             app.get("/api/users/:uid/likes", LikeController.likeController.findAllTuitsLikedByUser);
             app.get("/api/tuits/:tid/likes", LikeController.likeController.findAllUsersThatLikedTuit);
             app.post("/api/users/:uid/likes/:tid", LikeController.likeController.userLikesTuit);
+            app.put("/api/users/:uid/likes/:tid", LikeController.likeController.userTogglesTuitLikes);
             app.delete("/api/users/:uid/unlikes/:tid", LikeController.likeController.userUnlikesTuit);
         }
         return LikeController.likeController;
