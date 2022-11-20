@@ -25,7 +25,7 @@ const AuthenticationController = (app: Express) => {
             const insertedUser = await userDao
                 .createUser(newUser);
             insertedUser.password = '';
-            res.session['profile'] = insertedUser;
+            req.session['profile'] = insertedUser;
             res.json(insertedUser);
         }
     }

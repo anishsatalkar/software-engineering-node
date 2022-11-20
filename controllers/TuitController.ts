@@ -64,9 +64,18 @@ export default class TuitController implements TuitControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON arrays containing the tuit objects
      */
-    findAllTuitsByUser = (req: Request, res: Response) =>
-        TuitController.tuitDao.findAllTuitsByUser(req.params.uid)
+    findAllTuitsByUser = (req: any, res: any) => {
+        let userId = req.params.uid === "me"
+        && req.session['profile'] ?
+            req.session['profile']._id :
+            req.params.uid;
+
+        console.log(`findALlTuitsByUser ${userId} | ${req.params.uid}`);
+
+        TuitController.tuitDao.findAllTuitsByUser(userId)
             .then((tuits: Tuit[]) => res.json(tuits));
+    }
+
 
     /**
      * @param {Request} req Represents request from client, including path
@@ -86,9 +95,15 @@ export default class TuitController implements TuitControllerI {
      * body formatted as JSON containing the new tuit that was inserted in the
      * database
      */
-    createTuitByUser = (req: Request, res: Response) =>
-        TuitController.tuitDao.createTuitByUser(req.params.uid, req.body)
+    createTuitByUser = (req: any, res: any) => {
+        const userId = req.params.uid === "me"
+            && req.session['profile'] ?
+            req.session['profile']._id :
+            req.params.uid;
+        TuitController.tuitDao.createTuitByUser(userId, req.body)
             .then((tuit: Tuit) => res.json(tuit));
+    }
+
 
     /**
      * @param {Request} req Represents request from client, including path
