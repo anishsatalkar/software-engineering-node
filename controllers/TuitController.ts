@@ -76,8 +76,6 @@ export default class TuitController implements TuitControllerI {
             return
         }
 
-        console.log(`findALlTuitsByUser ${userId} | ${req.params.uid}`);
-
         TuitController.tuitDao.findAllTuitsByUser(userId)
             .then((tuits: Tuit[]) => res.json(tuits));
     }
