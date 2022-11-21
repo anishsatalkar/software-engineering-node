@@ -70,6 +70,12 @@ export default class TuitController implements TuitControllerI {
             req.session['profile']._id :
             req.params.uid;
 
+        if (userId === "me") {
+            // The client tried accessing a resource without logging in.
+            res.json([])
+            return
+        }
+
         console.log(`findALlTuitsByUser ${userId} | ${req.params.uid}`);
 
         TuitController.tuitDao.findAllTuitsByUser(userId)
