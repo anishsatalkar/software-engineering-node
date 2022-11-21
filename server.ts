@@ -22,6 +22,7 @@ import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 import AuthenticationController from "./controllers/AuthController";
+import DislikeController from "./controllers/DislikeController";
 var cors = require('cors')
 
 // build the connection string
@@ -78,6 +79,7 @@ FollowController.getInstance(app);
 BookmarkController.getInstance(app);
 MessageController.getInstance(app);
 AuthenticationController(app);
+DislikeController.getInstance(app);
 
 /**
  * Start a server listening at port 4000 locally
