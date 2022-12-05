@@ -52,11 +52,11 @@ const app = express();
 
 let sess = {
     secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: true,
+    resave: true,
+    saveUninitialized: false,
     cookie: {
         sameSite: process.env.ENV === "PRODUCTION" ? 'none' : 'lax',
-        secure: false
+        secure: process.env.ENV === "PRODUCTION"
     }
 }
 
