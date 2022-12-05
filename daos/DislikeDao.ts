@@ -1,5 +1,5 @@
 /**
- * @file Implements DAO managing data storage of likes. Uses mongoose BookmarkModel
+ * @file Implements DAO managing data storage of dislikes. Uses mongoose DislikeModel
  * to integrate with MongoDB
  */
 import DislikeDaoI from "../interfaces/DislikeDaoI";
@@ -7,9 +7,9 @@ import DislikeModel from "../mongoose/dislike/DislikeModel";
 import Dislike from "../models/dislike/Dislike";
 
 /**
- * @class LikeDao Implements Data Access Object managing data storage
- * of Bookmarks
- * @property {LikeDao} likeDao Private single instance of LikeDao
+ * @class DislikeDao Implements Data Access Object managing data storage
+ * of Dislikes
+ * @property {DislikeDao} dislikeDao Private single instance of DislikeDao
  */
 export default class DislikeDao implements DislikeDaoI {
     private static dislikeDao: DislikeDao | null = null;
@@ -29,9 +29,9 @@ export default class DislikeDao implements DislikeDaoI {
     }
 
     /**
-     * Retrieves all users that liked a tuit.
-     * @param {string} tid Tuit for which users who have liked this tuit.
-     * @returns Promise To be notified when the users who have liked the tuit are retrieved from the database.
+     * Retrieves all users that disliked a tuit.
+     * @param {string} tid Tuit for which users who have disliked this tuit.
+     * @returns Promise To be notified when the users who have disliked the tuit are retrieved from the database.
      */
     findAllUsersThatDislikedTuit = async (tid: string): Promise<Dislike[]> =>
         DislikeModel
@@ -40,9 +40,9 @@ export default class DislikeDao implements DislikeDaoI {
             .exec();
 
     /**
-     * Retrieves all tuits liked by a user.
-     * @param {string} uid User for whom their liked tuits are to be retrieved.
-     * @returns Promise To be notified when the liked tuits are retrieved from the database.
+     * Retrieves all tuits disliked by a user.
+     * @param {string} uid User for whom their disliked tuits are to be retrieved.
+     * @returns Promise To be notified when the disliked tuits are retrieved from the database.
      */
     findAllTuitsDislikedByUser = async (uid: string): Promise<Dislike[]> =>
         DislikeModel
@@ -57,26 +57,37 @@ export default class DislikeDao implements DislikeDaoI {
 
 
     /**
-     * Inserts a like instance into the database.
-     * @param {string} uid User who wishes to like a tuit.
-     * @param {string} tid Tuit that is liked.
-     * @returns Promise To be notified when a like instance in inserted into the database.
+     * Inserts a dislike instance into the database.
+     * @param {string} uid User who wishes to dislike a tuit.
+     * @param {string} tid Tuit that is disliked.
+     * @returns Promise To be notified when a dislike instance is inserted into the database.
      */
     userDislikesTuit = async (uid: string, tid: string): Promise<any> =>
         DislikeModel.create({tuit: tid, dislikedBy: uid});
 
     /**
-     * Removes a like instance from the database.
-     * @param {string} uid User who wishes to unlike a tuit.
-     * @param {string} tid Tuit that is unliked.
-     * @returns Promise To be notified when a like instance in removed from the database.
+     * Removes a dislike instance from the database.
+     * @param {string} uid User who wishes to un-dislike a tuit.
+     * @param {string} tid Tuit that is un-disliked.
+     * @returns Promise To be notified when a dislike instance in removed from the database.
      */
     userUnDislikesTuit = async (uid: string, tid: string): Promise<any> =>
         DislikeModel.deleteOne({tuit: tid, dislikedBy: uid});
 
+    /**
+     * Count the total number of users who have disliked a tuit.
+     * @param {string} tid Tuit for which the count is supposed to be returned.
+     * @returns Promise To be notified when the count is retrieved from the database.
+     */
     countHowManyDislikedTuit = async (tid: any) =>
         DislikeModel.count({tuit: tid});
 
+    /**
+     * Returns whether a user has disliked a tuit or not.
+     * @param {string} uid User for whom its checked whether they have disliked a tuit or not.
+     * @param {string} tid Tuit that is checked.
+     * @returns Promise to be notified when the check is returned.
+     */
     findUserDislikesTuit = async (uid: string, tid: string) =>
         DislikeModel.findOne(
             {tuit: tid, dislikedBy: uid});
